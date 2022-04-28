@@ -1,36 +1,46 @@
 import React, { Component } from 'react';
 
 export default class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       userName: 'Edward',
       todoItems: [
-        {action: 'Buy Milk', done: false},
-        {action: 'Dentist at 5pm', done: false},
-        {action: 'Go to Gym', done: false},
+        { action: 'Buy Milk', done: true },
+        { action: 'Dentist at 5pm', done: false },
+        { action: 'Go to Gym', done: false },
       ],
       newToDo: '',
     };
   }
 
-  todoRows = () => 
+  toggleDone = (todo) =>
+    this.setState({
+      todoItems: this.state.todoItems.map((item) =>
+        item.action === todo.action ? { ...item, done: !item.done } : item
+      ),
+    })
+
+  todoRows = () =>
     this.state.todoItems.map((item) => (
       <tr key={item.action}>
         <td>{item.action}</td>
+        <td>
+          <input type='checkbox' checked={item.done} onChange={() => this.toggleDone(item)} />
+        </td>
       </tr>
     ));
-  
+
   updateValue = (event) => {
-    this.setState({newToDo: event.target.value})
+    this.setState({ newToDo: event.target.value })
   }
 
   addTodo = () => {
     this.setState({
       todoItems: [
         ...this.state.todoItems,
-        {action: this.state.newToDo, done: false},
+        { action: this.state.newToDo, done: false },
       ],
     });
   }
@@ -52,6 +62,7 @@ export default class App extends Component {
             <thead>
               <tr>
                 <th>Task</th>
+                <th>Complete</th>
               </tr>
             </thead>
             <tbody>
