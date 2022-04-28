@@ -11,6 +11,7 @@ export default class App extends Component {
         {action: 'Dentist at 5pm', done: false},
         {action: 'Go to Gym', done: false},
       ],
+      newToDo: '',
     };
   }
 
@@ -21,6 +22,18 @@ export default class App extends Component {
       </tr>
     ));
   
+  updateValue = (event) => {
+    this.setState({newToDo: event.target.value})
+  }
+
+  addTodo = () => {
+    this.setState({
+      todoItems: [
+        ...this.state.todoItems,
+        {action: this.state.newToDo, done: false},
+      ],
+    });
+  }
 
   render = () => (
     <div className='container'>
@@ -29,6 +42,10 @@ export default class App extends Component {
           <h2 className='bg-primary text-white text-center p2'>
             {this.state.userName} To do list
           </h2>
+        </div>
+        <div className='col-12'>
+          <input className='form-control' value={this.state.newToDo} onChange={this.updateValue} />
+          <button className='btn btn-primary' onClick={this.addTodo}>Add</button>
         </div>
         <div className='col-12'>
           <table className='table'>
